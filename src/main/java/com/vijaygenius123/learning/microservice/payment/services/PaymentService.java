@@ -5,6 +5,7 @@ import com.vijaygenius123.learning.microservice.payment.repositories.PaymentRepo
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -14,7 +15,12 @@ public class PaymentService {
     private PaymentRepository repository;
 
     public Payment makePayment(Payment payment){
+        payment.setPaymentStatus(processPayment());
         payment.setTransactionId(UUID.randomUUID().toString());
         return repository.save(payment);
+    }
+
+    public String processPayment(){
+        return new Random().nextBoolean() ? "success": "pending";
     }
 }
